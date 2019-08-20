@@ -46,11 +46,11 @@ function points = getPathsFromImage(I)
     table_height = 147;
     
     for i = 1:length(points.thick)
-        points.thick{i} = [pointsToWorld(cameraParams,R,t,points.thick{i}),table_height.*ones(length(points.thick{i}),1)];
+        points.thick{i} = [pointsToWorld(cameraParams,R,t,points.thick{i});;
     end
     
     for i = 1:length(points.thin)
-        points.thin{i} = [pointsToWorld(cameraParams,R,t,points.thin{i}),table_height.*ones(length(points.thin{i}),1)];
+        points.thin{i} = pointsToWorld(cameraParams,R,t,points.thin{i});
     end
     
     
@@ -80,6 +80,11 @@ function coords = getPoints(I)
     r = regionprops(x,'Centroid');
     coords = cat(1,r.Centroid);
     
+    %imshow(I)
+    
+    %imshow(noise)
+    
+    %imshow(x)
     %get second half of pixel co-ordinates
     noise = ~noise;
     x = I & noise;
