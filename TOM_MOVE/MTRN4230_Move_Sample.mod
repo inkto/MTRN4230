@@ -24,8 +24,11 @@ MODULE MTRN4230_Move_Sample
     ! The Main procedure. When you select 'PP to Main' on the FlexPendant, it will go to this procedure.
     ! Tom change it from MainMove to main
     PROC main()
-!        CONNECT tableDataInt WITH table_isr;
-!        ISignalDO DO10_5, 1, tableDataInt;
+        CONNECT tableDataInt WITH table_isr;
+        ISignalDO DO10_5, 1, tableDataInt;
+        
+        ! The process call in this part will not be adapted =====================================
+        ! This part is given in sample code =====================================================
         
         ! This is a procedure defined in a System Module, so you will have access to it.
         ! This will move the robot to its calibration.
@@ -40,30 +43,29 @@ MODULE MTRN4230_Move_Sample
         ! Call another procedure, but provide some input arguments.
         ! VariableSample pTableHome, 100, 100, 0, v100, fine;
         
+        ! =========================================================================================
+        ! =========================================================================================
+        
+        
         ! Tom add this ===================================================
         ! Test if the interrupt has been done
         TPWrite "table_isr finish";
         TPWrite "start moving";
-        ! Practising
+        
         ! move from calibration position to target 1
         ! start the vaccume 
         MoveToCalibPos;
         SingArea \Wrist;
         MoveL Target_1, v100, fine,tSCup;
         
-        ! Let the conveyor move away from the robot
-        SetDO DO10_4, 0;
-        ! Turn on the conveyor
-        SetDO DO10_3, 1;
-        ! Time to wait in seconds.
-        WaitTime 2;
-        ! Turn off the conveyor
-        SetDO DO10_3, 0;
-        ! Let the conveyor move towards the robot
-        SetDO DO10_4, 1;
-!        ! After picking up the block, lift it up
-!        ! i.e : increase the z-coordinate
-!        ! z = z + 150
+        TurnVacOn;
+        SetDo DO10_2, 1;
+        
+        ! Wait for 3 sec to ensure the block is sucked 
+        WaitTime 3;
+        ! After picking up the block, lift it up
+        ! i.e : increase the z-coordinate
+        ! z = z + 150
         LiftTheObjectInZ Target_1, 0, 0, 150, v100, fine;
         
 !        ! Move to the waypoint
@@ -74,6 +76,9 @@ MODULE MTRN4230_Move_Sample
         ! Move to the final point
         ! Suppose it is 10mm above the table
         MoveJSample;
+        SetDo DO10_2, 0;
+        TurnVacOff;
+        
         SingArea \Off;
         ! ==============================================================
         
@@ -113,10 +118,10 @@ MODULE MTRN4230_Move_Sample
     ! Tom add this ==========================================================================
     ! define the interrupt service routine
     ! when the positon, types , and number of blocks on the table ready 
-!    TRAP table_isr
-!        TPWrite "Enter table_isr";
-!        TPWrite "Table data ready";
-!    ENDTRAP
+    TRAP table_isr
+        TPWrite "Enter table_isr";
+        TPWrite "Table data ready";
+    ENDTRAP
     
     ! This function lift the object (block) in z-direction
     PROC LiftTheObjectInZ(robtarget target, num x_offset, num y_offset, num z_offset, speeddata speed, zonedata zone)
