@@ -3,7 +3,7 @@ function points = getPathsFromImage(I)
     %they will eed to be converted to world frame for path planning ect.
     colI = I;
     %points is a struct that returns to cell arrays ( thick and thin letter strokes (merged))
-    roi = rgb2gray(imread("roi.png"));
+    roi = rgb2gray(imread('roi.png'));
     roi = roi < 50;
 
     grayI = rgb2gray(colI);
@@ -39,9 +39,9 @@ function points = getPathsFromImage(I)
     points.thick = points2contour(thickPointsUnordered(:,1),thickPointsUnordered(:,2));
     points.thin = points2contour(thinPointsUnordered(:,1),thinPointsUnordered(:,2));
 
-    load('cameraParams.mat');
-    load('rotation.mat');
-    load('translation.mat');
+    load('..\CVE(IP)\calibration\cameraParams.mat');
+    load('..\CVE(IP)\calibration\rotation.mat');
+    load('..\CVE(IP)\calibration\translation.mat');
     
     table_height = 147;
     

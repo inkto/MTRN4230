@@ -1,6 +1,8 @@
-I = imread("table__08_13_12_54_33.jpg");
+clear variables; close all; clc; % Take care to clear variables or else elements of L may not be overwritten correctly - maybe a Matlab optimiser problem.
+
+I = imread('table__08_13_12_54_33.jpg');
 paths = getPathsFromImage(I);
-figure
+figure();
 hold on
 
 
