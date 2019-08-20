@@ -4,36 +4,29 @@ I = imread('table__08_13_12_54_33.jpg');
 paths = getPathsFromImage(I);
 initRobot();
 
+% dur = ones(1,3)*1.75;
+% traj = mstraj(CartP(2:end,:), [], dur, CartP(1,:), 0.01, 0);
+% 
+% % Plot Cartesian coordinates
+% f2 = figure(6);
+% %s_cart = irb_120.fkine(traj);
+% %two_link_locus = transl(s_cart);  % Just translational components
+% plot(traj(:, 1), traj(:, 2)); axis equal; xlabel('X [m]'); ylabel('Y [m]'); grid on; title('Locus of Cartesian path');
+
 figure();
 imshow(I);
 hold on
 
 for i = 1:length(paths.thick)
     curPoints = paths.thick{i};
-    plot(curPoints(:,1),curPoints(:,2),'linewidth',5);
-    ZaWarudo = convertPoints(curPoints(:,1),curPoints(:,2));
-    pause(0.2);
+    pcshow(curPoints,'VerticalAxisDir','up','MarkerSize',40);
 end
 
 for i = 1:length(paths.thin)
     curPoints = paths.thin{i};
-    plot(curPoints(:,1),curPoints(:,2),'linewidth',3);
-    pause(0.2);
+    pcshow(curPoints, 'VerticalAxisDir','up','MarkerSize',40);
 end
 
-
-function worldPoints = convertPoints(X,Y)
-    pixels = 585;
-    mm = 373.6;
-    factor = mm/pixels;
-    for i = 1:length(X)
-        x(i) = (Y(i) - 10) * factor;
-        y(i) = (X(i) - 799) * factor;
-        z(i) = 197;
-    end
-    worldPoints = [x' y' z'];
-    
-end
     
 function initRobot
     startup_rvc; dbstop if error;
