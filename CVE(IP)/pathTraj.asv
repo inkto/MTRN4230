@@ -6,34 +6,24 @@ initRobot();
 
 figure();
 imshow(I);
-
-figure();
 hold on
 
 for i = 1:length(paths.thick)
     curPoints = paths.thick{i};
-    %pcshow(curPoints,'VerticalAxisDir','up','MarkerSize',40);
+    pcshow(curPoints,'VerticalAxisDir','up','MarkerSize',40);
     
-    dur = ones(1,length(curPoints(:,1))-1)*1.75;
+    dur = ones(1,length(paths.thick{:,1}))*1.75;
     traj = mstraj(curPoints(2:end,:), [], dur, curPoints(1,:), 0.01, 0);
 
     % Plot Cartesian coordinates
-    
+    f2 = figure();
     plot(traj(:, 1), traj(:, 2)); axis equal; xlabel('X [m]'); ylabel('Y [m]'); grid on; title('Locus of Cartesian path');
     pause();
-    
 end
 
 for i = 1:length(paths.thin)
     curPoints = paths.thin{i};
-    %pcshow(curPoints, 'VerticalAxisDir','up','MarkerSize',40);
-    
-    dur = ones(1,length(curPoints(:,1))-1)*1.75;
-    traj = mstraj(curPoints(2:end,:), [], dur, curPoints(1,:), 0.01, 0);
-
-    % Plot Cartesian coordinates
-    plot(traj(:, 1), traj(:, 2)); axis equal; xlabel('X [m]'); ylabel('Y [m]'); grid on; title('Locus of Cartesian path');
-    pause();
+    pcshow(curPoints, 'VerticalAxisDir','up','MarkerSize',40);
 end
 
     

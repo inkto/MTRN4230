@@ -43,7 +43,7 @@ function points = getPathsFromImage(I)
     load('..\CVE(IP)\calibration\rotation.mat');
     load('..\CVE(IP)\calibration\translation.mat');
     
-    table_height = 147;
+    table_height = 197;
     
     for i = 1:length(points.thick)
         points.thick{i} = [pointsToWorld(cameraParams,R,t,points.thick{i}),table_height.*ones(length(points.thick{i}),1)];
